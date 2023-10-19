@@ -25,3 +25,8 @@ source venv/bin/activate
 pip install -r requirements.txt
 python manage.py runserver
 ```
+# How to run the project with Docker
+- Clone the project
+- Run the project
+
+```
