@@ -18,4 +18,3 @@ class CalcTests(SimpleTestCase):
         res = calc.subtract(6, 4)
 
         self.assertEquals(res, 2)
-
