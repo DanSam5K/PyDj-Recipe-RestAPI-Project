@@ -18,3 +18,9 @@ class CalcTests(SimpleTestCase):
         res = calc.subtract(6, 4)
 
         self.assertEquals(res, 2)
+
+    def test_multiply_numbers(self):
+        """Multiply two function"""
+        res = calc.multiply(6, 5)
+
+        self.assertEquals(res, 36)
