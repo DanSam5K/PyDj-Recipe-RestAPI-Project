@@ -30,4 +30,8 @@ services:
       - POSTGRES_PASSWORD=changeme
 
 volumes:
-  dev-db-data:
+  dev-db-data: {
+    driver: local
+
+  }
+
