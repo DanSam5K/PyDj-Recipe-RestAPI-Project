@@ -54,4 +54,3 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # This is the username field
     USERNAME_FIELD = 'email'
-
