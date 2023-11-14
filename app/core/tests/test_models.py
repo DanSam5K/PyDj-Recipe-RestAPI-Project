@@ -44,17 +44,3 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
-
-    def test_create_new_user(self):
-        """Validating user data correct user"""
-        user = get_user_model().objects.create_user(
-            'test@example.com', 'sample123'
-        )
-
-        self.assertTrue(user.is_user)
-        self.assertTrue(user.is_active)
-
-    def test_create_new_user(self):
-        """Validating user data correct user"""
-        user = get_user_model().objects.create_user(
-
