@@ -86,7 +86,10 @@ class PublicUserApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     def test_create_token_bad_credentials(self):
-        """Test that a token is not created if invalid credentials are given."""
+        """
+        Test that a token is not created
+        if invalid credentials are given.
+        """
         create_user(email="test@example.com", password="goodpass")
 
         payload = {'email': 'test@example.com', 'password': 'badpass'}
@@ -115,9 +118,9 @@ class PrivateUserApiTests(TestCase):
     def setUp(self):
         """Setup."""
         self.user = create_user(
-            email = 'test@example',
-            password = 'testpass123',
-            name = 'Test Name',
+            email='test@example',
+            password='testpass123',
+            name='Test Name',
         )
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)
