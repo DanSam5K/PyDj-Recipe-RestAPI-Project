@@ -16,7 +16,7 @@ from recipe.serializers import TagSerializer
 TAGS_URL = reverse('recipe:tag-list')
 
 
-def create_user(email="user@emample.com", password="sample123"):
+def create_user(email="user@example.com", password="sample123"):
     """Create and return a sample user"""
     return get_user_model().objects.create_user(email, password)
 
@@ -54,7 +54,7 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_tags_limited_to_user(self):
-        """Test that tags returned are for the authenticated user"""
+        """Test that tags returned are limited to authenticated user"""
         user2 = create_user(email='user2@example.com', password='sample123')
         Tag.objects.create(user=user2, name='Fruity')
         tag = Tag.objects.create(user=self.user, name='Comfort Food')
@@ -64,4 +64,4 @@ class PrivateTagsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], tag.name)
-        self.assertEqual(res.data[0]['user'], tag.user.id)
+        self.assertEqual(res.data[0]['id'], tag.id)
