@@ -73,12 +73,11 @@ class PrivateTagsApiTests(TestCase):
 
     def test_update_tag(self):
         """Test updating a tag"""
-        tag = Tag.objects.create(user=self.user, name='After Dinner')
+        tag = Tag.objects.create(user=self.user, name='Sample tag')
+        payload = {'name': 'New tag name'}
 
-        payload = {'name': 'Dessert'}
         url = detail_url(tag.id)
-        self.client.patch(url, payload)
-        res = self.client.get(url, payload)
+        res = self.client.patch(url, payload)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         tag.refresh_from_db()
