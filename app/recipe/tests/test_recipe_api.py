@@ -205,12 +205,10 @@ class PrivateRecipeApiTests(TestCase):
     def test_create_recipe_with_new_tags(self):
         """Test creating a recipe with new tags"""
         payload = {
-            'title': 'Sample recipe title',
+            'title': 'Thai Prawn Curry',
             'time_minutes': 22,
             'price': Decimal('5.25'),
-            'description': 'Sample description',
-            'link': 'https://www.sample.com/recipe',
-            'tags': [{'name': 'Vegan'}, {'name': 'Dessert'}]
+            'tags': [{'name': 'Thai'}, {'name': 'Dinner'}]
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -220,23 +218,20 @@ class PrivateRecipeApiTests(TestCase):
         recipe = recipes[0]
         self.assertEqual(recipe.tags.count(), 2)
         for tag in payload['tags']:
-            exists = recipes.tags.filter(
+            exists = recipe.tags.filter(
                 name=tag['name'],
                 user=self.user,
             ).exists()
             self.assertTrue(exists)
 
     def test_create_recipe_with_existing_tags(self):
-        """Test creating a recipe with existing tags"""
-        tag1 = Tag.objects.create(user=self.user, name='Vegan')
-        # tag2 = Tag.objects.create(user=self.user, name='Dessert')
+        """"Test creating a recipe with existing tags"""
+        tag_indian = Tag.objects.create(user=self.user, name='Indian')
         payload = {
-            'title': 'Sample recipe title',
+            'title': 'Pongal',
             'time_minutes': 22,
             'price': Decimal('5.25'),
-            'description': 'Sample description',
-            'link': 'https://www.sample.com/recipe',
-            'tags': [{'name': tag1.name}, {'name': 'Dessert'}],
+            'tags': [{'name': 'Indian'}, {'name': 'Dessert'}],
         }
         res = self.client.post(RECIPES_URL, payload, format='json')
 
@@ -245,9 +240,10 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(recipes.count(), 1)
         recipe = recipes[0]
         self.assertEqual(recipe.tags.count(), 2)
-        self.assertIn(tag1, recipe.tags.all())
+        self.assertIn(tag_indian, recipe.tags.all())
+        self.assertNotIn(tag_indian, payload['tags'])
         for tag in payload['tags']:
-            exists = recipes.tags.filter(
+            exists = recipe.tags.filter(
                 name=tag['name'],
                 user=self.user,
             ).exists()
