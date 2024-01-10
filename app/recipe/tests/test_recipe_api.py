@@ -263,4 +263,19 @@ class PrivateRecipeApiTests(TestCase):
         new_tag = Tag.objects.get(user=self.user, name='Dessert')
         self.assertIn(new_tag, recipe.tags.all())
 
-    # def test_update_recipe_assign_tag
+    def test_update_recipe_assign_tag(self):
+        """Test updating a recipe by assigning a tag"""
+        tag_breakfast = Tag.objects.create(user=self.user, name='Breakfast')
+        recipe = create_recipe(user=self.user)
+        recipe.tags.add(tag_breakfast)
+
+        tag_lunch = Tag.objects.create(user=self.user, name='Lunch')
+        payload = {
+            'tags': [{'name': 'lunch'}],
+        }
+        url = detail_url(recipe.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertIn(tag_lunch, recipe.tags.all())
+        self.assertNotIn(tag_breakfast, recipe.tags.all())
