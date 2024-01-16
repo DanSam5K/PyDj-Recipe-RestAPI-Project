@@ -65,7 +65,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
             ingredient_ids = self._params_to_ints(ingredients)
             queryset = queryset.filter(ingredients__id__in=ingredient_ids)
 
-        return queryset.filter(user=self.request.user).order_by('-id').distinct()
+        return queryset.filter(
+            user=self.request.user
+        ).order_by('-id').distinct()
 
     def get_serializer_class(self):
         """Return appropriate serializer class"""
@@ -107,7 +109,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         parameters=[
             OpenApiParameter(
                 name='assigned_only',
-                type=OpenApiTypes.INT,
+                type='OpenApiTypes.INT, 0 or 1',
                 description='Filter tags by assigned only',
             ),
         ],
